@@ -20,10 +20,10 @@ def proof_of_work(last_proof):
     """
 
     start = timer()
-
-    print("Searching for next proof")
+    last_hash = hashlib.sha256(str(last_proof).encode()).hexdigest()
+    print("Searching for next proof.")
     proof = 0
-    while valid_proof(last_proof, proof):
+    while not valid_proof(last_hash, proof):
         proof += 1
 
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
@@ -38,8 +38,6 @@ def valid_proof(last_hash, proof):
     IE:  last_hash: ...999123456, new hash 123456888...
     """
     guess = str(proof).encode()
-    last_hash = str(last_hash)
-
     proof_hash = hashlib.sha256(guess).hexdigest()
 
     return last_hash[-6:] == proof_hash[:6]
@@ -83,3 +81,4 @@ if __name__ == '__main__':
             print("Total coins mined: " + str(coins_mined))
         else:
             print(data.get('message'))
+            print("Total coins mined: " + str(coins_mined))
