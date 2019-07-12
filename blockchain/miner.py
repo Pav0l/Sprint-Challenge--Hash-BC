@@ -23,7 +23,8 @@ def proof_of_work(last_proof):
 
     print("Searching for next proof")
     proof = 0
-    #  TODO: Your code here
+    while valid_proof(last_proof, proof):
+        proof += 1
 
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
     return proof
@@ -36,7 +37,12 @@ def valid_proof(last_hash, proof):
 
     IE:  last_hash: ...999123456, new hash 123456888...
     """
-    return last_hash[-6:] == proof[:6]
+    guess = str(proof).encode()
+    last_hash = str(last_hash)
+
+    proof_hash = hashlib.sha256(guess).hexdigest()
+
+    return last_hash[-6:] == proof_hash[:6]
 
 
 if __name__ == '__main__':
@@ -49,12 +55,12 @@ if __name__ == '__main__':
     coins_mined = 0
 
     # Load or create ID
-    f = open("my_id.txt", "r")
+    f = open("./blockchain/my_id.txt", "r")
     id = f.read()
     print("ID is", id)
     f.close()
     if len(id) == 0:
-        f = open("my_id.txt", "w")
+        f = open("./blockchain/my_id.txt", "w")
         # Generate a globally unique ID
         id = str(uuid4()).replace('-', '')
         print("Created new ID: " + id)
