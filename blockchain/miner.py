@@ -36,9 +36,7 @@ def valid_proof(last_hash, proof):
 
     IE:  last_hash: ...999123456, new hash 123456888...
     """
-
-    # TODO: Your code here!
-    pass
+    return last_hash[-6:] == proof[:6]
 
 
 if __name__ == '__main__':
